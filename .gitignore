@@ -1,0 +1,6 @@
+.dist/
+.node_modules/
+electron-builder.json
+main.js
+package-lock.json
+package.json
