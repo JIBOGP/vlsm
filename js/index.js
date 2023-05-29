@@ -1,12 +1,12 @@
-const ip = document.getElementById("ip");
-const mascara = document.getElementById("mask");
-const contenedor = document.getElementById("contenedor");
+let ip = document.getElementById("ip");
+let mascara = document.getElementById("mask");
+let contenedor = document.getElementById("contenedor");
 let ip_base = 0;
 let ip_top = 0;
 
 //Tabla
-const tabla_body = document.getElementById("redes_desc").getElementsByTagName("tbody")[0]; //Tabla Body
-const tabla_foot = document.getElementById("redes_desc").getElementsByTagName("tfoot")[0].rows[0].cells; //Tabla foot
+let tabla_body = document.getElementById("redes_desc").getElementsByTagName("tbody")[0]; //Tabla Body
+let tabla_foot = document.getElementById("redes_desc").getElementsByTagName("tfoot")[0].rows[0].cells; //Tabla foot
 
 //Insertar subred
 const btn_add_row = document.getElementById("cant_red_add");
