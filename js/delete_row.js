@@ -23,11 +23,13 @@ function btn_eliminar() {
         descargarButton.disabled = true;
         cargarButton.disabled = true;
         btn_add_row.disabled = true;
+        botonEditColor.disabled = true;
         if (filas.length == 0) {
             botonCaptura.disabled = false;
             descargarButton.disabled = false;
             cargarButton.disabled = false;
             btn_add_row.disabled = false;
+            botonEditColor.disabled = false;
             cambiarEstadoBoton();
         } else {
             for (let i = 0; i < filas.length; i++) {
@@ -42,6 +44,7 @@ function btn_eliminar() {
         descargarButton.disabled = false;
         cargarButton.disabled = false;
         btn_add_row.disabled = false;
+        botonEditColor.disabled = false;
         if (filas.length > 0) {
             for (let i = 0; i < filas.length; i++) {
                 filas[i].classList.remove("aEliminar");

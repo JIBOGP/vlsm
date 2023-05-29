@@ -144,16 +144,32 @@ body {
 
 .aEliminar:hover th {
   background-color: red !important;
-  cursor: pointer !important;
 }
 
 .aEliminar th {
   user-select: none !important;
+  cursor: pointer !important;
 }
-
+#redes_desc tbody th{
+  background-color: lightgray;
+}
 #redes_desc tbody th:nth-child(1),
 #redes_desc tbody th:nth-child(2) {
   background-color: white;
+}
+.aEditar:hover th{
+  border-bottom-color: green !important;
+  border-top-color: green !important;
+}
+.aEditar:hover th:first-child {
+  border-left-color: green !important;
+}
+.aEditar:hover th:last-child {
+  border-right-color: green !important;
+}
+.aEditar th {
+  user-select: none !important;
+  cursor: pointer !important;
 }
 
 /*-------------------------Contenedor-------------------------*/
