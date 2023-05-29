@@ -298,7 +298,7 @@ function generate_box(ip_base, mask_num, ip_top, nombre, color, fnt_size) {
 
 //Generador de colores aleatorios
 function random_color() {
-    let color = `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`
+    let color = `rgb(${Math.round(Math.random() * 255)},${Math.round(Math.random() * 255)},${Math.round(Math.random() * 255)})`
     return color
 }
 

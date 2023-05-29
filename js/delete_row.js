@@ -57,8 +57,8 @@ function btn_eliminar() {
     }
 }
 
+// Eliminar la fila
 function eliminarFila() {
-    // Eliminar la fila al hacer clic
     this.parentNode.removeChild(this);
     calcular();
 }

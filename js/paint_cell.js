@@ -58,8 +58,12 @@ function btn_editar() {
 }
 
 function editarFila() {
-    // Eliminar la fila al hacer clic
-this.cells[0].style.backgroundColor=random_color();
-    //this.parentNode.removeChild(this);
-    //calcular();
+    let ncolor=random_color();
+    this.cells[0].style.backgroundColor = ncolor;
+    if (calculateBrightness(ncolor) < 128) {
+        this.cells[0].style.color = "rgb(255,255,255)";
+    }else{
+        this.cells[0].style.color = "rgb(0,0,0)";
+    }
+    calcular();
 }
