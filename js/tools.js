@@ -30,7 +30,7 @@ descargarButton.addEventListener('click', function () {
             filaDatos.push(celdas[j].innerText);
         }
 
-        csvContent += filaDatos.join('|') + '|' + '\n';
+        csvContent += filaDatos.join('|') + '|'+celdas[0].style.backgroundColor + '\n';
     }
     csvContent += ip.value + '|' + mascara.value
     // Crear un objeto Blob con el contenido CSV
@@ -75,6 +75,9 @@ archivoInput.addEventListener('change', function () {
             const fila = document.createElement('tr');
             for (let j = 0; j < 8; j++) {
                 let celda = document.createElement('th');
+                if (j == 0) {
+                    celda.style.backgroundColor = celdas[8];
+                }
                 if (j < 2) { celda.setAttribute('contenteditable', 'true'); }
                 celda.textContent = celdas[j];
                 fila.appendChild(celda);

@@ -61,7 +61,6 @@ body {
 
 #caja_calcular {
   display: flex;
-  margin-right: 4px;
   align-items: center;
   height: 100%;
 }
@@ -71,7 +70,7 @@ body {
   align-items: center;
   font-size: 50px;
   height: 100%;
-  border-radius: 10px;
+  border-radius: 10px 0px 0px 10px;
   cursor: pointer;
   background-color: #257986;
   border: 0px;
@@ -97,6 +96,7 @@ body {
   filter: grayscale(100%);
   cursor: not-allowed;
 }
+
 /*-------------------------INPUT-------------------------*/
 #ip,
 #mask {
@@ -146,7 +146,8 @@ body {
   background-color: red !important;
   cursor: pointer !important;
 }
-.aEliminar th{
+
+.aEliminar th {
   user-select: none !important;
 }
 

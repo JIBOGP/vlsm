@@ -9,25 +9,26 @@ const tabla_body = document.getElementById("redes_desc").getElementsByTagName("t
 const tabla_foot = document.getElementById("redes_desc").getElementsByTagName("tfoot")[0].rows[0].cells; //Tabla foot
 
 //Insertar subred
-const btn_add_row=document.getElementById("cant_red_add");
+const btn_add_row = document.getElementById("cant_red_add");
 btn_add_row.addEventListener("click", function () {
     var nuevaFila = document.createElement("tr");
-
-    // Crear y añadir los elementos <th> dentro de la nueva fila
     for (var i = 0; i < 8; i++) {
         var nuevoTh = document.createElement("th");
         if (i < 2) {
+            if (i == 0) {
+                nuevoTh.style.backgroundColor = random_color();
+            }
             nuevoTh.setAttribute("contenteditable", "true");
         }
         nuevaFila.appendChild(nuevoTh);
     }
-
-    // Insertar la nueva fila al final de la tabla
     tabla_body.appendChild(nuevaFila);
 });
 
+
 //Boton calcular
 document.getElementById("calcular").addEventListener("click", calcular);
+
 function calcular() {
     getip();
     ordenarTabla(tabla_body);
@@ -228,7 +229,7 @@ function agregar_element(fila, dom) {
     let hor = '<div class="horizontal" mask="/';
     if (fila[3].innerHTML == dom.getAttribute("mask")) {
         dom.setAttribute("mask", "/full/");
-        dom.innerHTML = generate_box(fila[4].innerHTML.slice(0, -3), fila[3].innerHTML.replace("/", ""), fila[7].innerHTML, fila[0].innerHTML, "random", Math.round(64 * (dom.offsetHeight / contenedor.offsetHeight)) + 4);
+        dom.innerHTML = generate_box(fila[4].innerHTML.slice(0, -3), fila[3].innerHTML.replace("/", ""), fila[7].innerHTML, fila[0].innerHTML, fila[0].style.backgroundColor, Math.round(64 * (dom.offsetHeight / contenedor.offsetHeight)) + 4);
     } else if (dom.getAttribute("mask") != "/null/") {
         dom_mask = Number(dom.getAttribute("mask").replace("/", "")) + 1;
         dom.setAttribute("mask", "/null/");
@@ -268,27 +269,51 @@ function vlsm_assign_free(dom) {
 }
 
 function generate_box(ip_base, mask_num, ip_top, nombre, color, fnt_size) {
-    if (color == "random") {
-        color = "#";
-        for (var i = 0; i < 6; i++) {
-            let ub_col = Math.random() * 15
-            color += "0123456789ABCDEF".substring(ub_col, ub_col + 1)
-        }
-    }
+    const div = document.createElement("div");
+    div.className = "elements";
+    div.style.backgroundColor = color;
+    div.style.fontSize = `${fnt_size}px`;
 
-    box = `<div class="elements" style="background-color: ` + color + `;font-size:` + fnt_size + `px;" >` +
-        `<p class="top">${ip_base}</p>` +
-        `<div class="center">` +
-        `<p>${nombre}</p>` +
-        `<p class="center_dispositives">2^${(32 - Number(mask_num))} = ${Math.pow(2, 32 - Number(mask_num))} direcciones</p>` +
-        `<p class="center_mask">/${Number(mask_num)}</p>` +
-        `</div>` +
-        `<p class="bottom">${ip_top}</p>` +
-        `</div>`;
-    return box
+    const pTop = document.createElement("p");
+    pTop.className = "top";
+    pTop.textContent = ip_base;
+    div.appendChild(pTop);
+
+    const centerDiv = document.createElement("div");
+    centerDiv.className = "center";
+
+    const pNombre = document.createElement("p");
+    pNombre.textContent = nombre;
+    centerDiv.appendChild(pNombre);
+
+    const pDispositives = document.createElement("p");
+    pDispositives.className = "center_dispositives";
+    pDispositives.textContent = `2^${32 - Number(mask_num)} = ${Math.pow(2, 32 - Number(mask_num))} direcciones`;
+    centerDiv.appendChild(pDispositives);
+
+    const pMask = document.createElement("p");
+    pMask.className = "center_mask";
+    pMask.textContent = `/${Number(mask_num)}`;
+    centerDiv.appendChild(pMask);
+
+    div.appendChild(centerDiv);
+
+    const pBottom = document.createElement("p");
+    pBottom.className = "bottom";
+    pBottom.textContent = ip_top;
+    div.appendChild(pBottom);
+
+    return div.outerHTML;
 }
 
-
+function random_color() {
+    let color = "#";
+    for (var i = 0; i < 6; i++) {
+        let ub_col = Math.random() * 15
+        color += "0123456789ABCDEF".substring(ub_col, ub_col + 1)
+    }
+    return color
+}
 
 
 //Hecho por Juan Ignacio Bertoldi
