@@ -224,6 +224,7 @@ function generer_grafico_vlsm(filas) {
     }
 }
 
+//Asigna los espacios ocupados del grafico clsm
 function agregar_element(fila, dom) {
     let ver = '<div class="vertical" mask="/';
     let hor = '<div class="horizontal" mask="/';
@@ -253,6 +254,7 @@ function agregar_element(fila, dom) {
     }
 }
 
+//Asigna los espacios libres del grafico clsm
 function vlsm_assign_free(dom) {
     if (dom.getAttribute("mask") != "/null/" && dom.getAttribute("mask") != "/full/") {
         dom_mask = dom.getAttribute("mask").replace("/", "");
@@ -268,6 +270,7 @@ function vlsm_assign_free(dom) {
     }
 }
 
+//Genera la caja de datos del grafico vlsm
 function generate_box(ip_base, mask_num, ip_top, nombre, color, fnt_size) {
     const div = document.createElement("div");
     div.className = "elements";
@@ -306,12 +309,9 @@ function generate_box(ip_base, mask_num, ip_top, nombre, color, fnt_size) {
     return div.outerHTML;
 }
 
+//Generador de colores aleatorios
 function random_color() {
-    let color = "#";
-    for (var i = 0; i < 6; i++) {
-        let ub_col = Math.random() * 15
-        color += "0123456789ABCDEF".substring(ub_col, ub_col + 1)
-    }
+    let color = `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`
     return color
 }
 
