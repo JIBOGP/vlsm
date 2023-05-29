@@ -77,6 +77,9 @@ archivoInput.addEventListener('change', function () {
                 let celda = document.createElement('th');
                 if (j == 0) {
                     celda.style.backgroundColor = celdas[8];
+                    if (calculateBrightness(celdas[8]) < 128) {
+                        celda.style.color = "white";
+                      }
                 }
                 if (j < 2) { celda.setAttribute('contenteditable', 'true'); }
                 celda.textContent = celdas[j];

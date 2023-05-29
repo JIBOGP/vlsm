@@ -159,7 +159,7 @@ body {
 /*-------------------------Contenedor-------------------------*/
 #contenedor {
   margin: 20px 10px;
-  border: 3px solid black;
+  border: 2px solid black;
   height: 85vh;
   display: flex;
 }
@@ -194,7 +194,7 @@ body {
 }
 
 .vertical:first-child {
-  border-right: 3px solid black;
+  border-right: 2px solid black;
 }
 
 .vertical {
@@ -206,7 +206,7 @@ body {
 }
 
 .horizontal:first-child {
-  border-bottom: 3px solid black;
+  border-bottom: 2px solid black;
 }
 
 .horizontal {
@@ -219,5 +219,5 @@ body {
 .horizontal,
 .vertical,
 #contenedor {
-  background-color: white;
+  background-color: black;
 }

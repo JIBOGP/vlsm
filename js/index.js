@@ -8,24 +8,6 @@ let ip_top = 0;
 let tabla_body = document.getElementById("redes_desc").getElementsByTagName("tbody")[0]; //Tabla Body
 let tabla_foot = document.getElementById("redes_desc").getElementsByTagName("tfoot")[0].rows[0].cells; //Tabla foot
 
-//Insertar subred
-const btn_add_row = document.getElementById("cant_red_add");
-btn_add_row.addEventListener("click", function () {
-    var nuevaFila = document.createElement("tr");
-    for (var i = 0; i < 8; i++) {
-        var nuevoTh = document.createElement("th");
-        if (i < 2) {
-            if (i == 0) {
-                nuevoTh.style.backgroundColor = random_color();
-            }
-            nuevoTh.setAttribute("contenteditable", "true");
-        }
-        nuevaFila.appendChild(nuevoTh);
-    }
-    tabla_body.appendChild(nuevaFila);
-});
-
-
 //Boton calcular
 document.getElementById("calcular").addEventListener("click", calcular);
 
@@ -220,7 +202,7 @@ function generer_grafico_vlsm(filas) {
         }
         vlsm_assign_free(contenedor);
     } else {
-        contenedor.innerHTML = generate_box(ip_base, Number(mascara.value), ip_top, "Libre", "#ffffff", 64);
+        contenedor.innerHTML = generate_box(ip_base, Number(mascara.value), ip_top, "Libre", "rgb(255,255,255)", 64);
     }
 }
 
@@ -262,7 +244,7 @@ function vlsm_assign_free(dom) {
         let elem_hermano = hermano[0].getElementsByClassName("bottom")
         let ip_base_libre = sum_ip(elem_hermano[elem_hermano.length - 1].innerHTML, 1);
         let ip_top_libre = octet_to_ipv4(ip_to_octet(ip_base_libre).slice(0, dom_mask) + mask_to_b_octet(dom_mask).replaceAll("1", "").replaceAll("0", "1"));
-        dom.innerHTML = generate_box(ip_base_libre, dom_mask, ip_top_libre, "Libre", "#ffffff", Math.round(64 * (dom.offsetHeight / contenedor.offsetHeight)) + 4);
+        dom.innerHTML = generate_box(ip_base_libre, dom_mask, ip_top_libre, "Libre", "RGB(255,255,255)", Math.round(64 * (dom.offsetHeight / contenedor.offsetHeight)) + 4);
     } else if (dom.getAttribute("mask") == "/null/") {
         let hijos = Array.from(dom.children);
         vlsm_assign_free(hijos[0]);
@@ -275,14 +257,18 @@ function generate_box(ip_base, mask_num, ip_top, nombre, color, fnt_size) {
     const div = document.createElement("div");
     div.className = "elements";
     div.style.backgroundColor = color;
+    if (calculateBrightness(color) < 128) {
+        div.style.color = "white";
+    }
     div.style.fontSize = `${fnt_size}px`;
-
     const pTop = document.createElement("p");
     pTop.className = "top";
     pTop.textContent = ip_base;
+    if (fnt_size<12){pTop.style.opacity = 0}
     div.appendChild(pTop);
 
     const centerDiv = document.createElement("div");
+    if (fnt_size<12){centerDiv.style.opacity = 0}
     centerDiv.className = "center";
 
     const pNombre = document.createElement("p");
@@ -304,6 +290,7 @@ function generate_box(ip_base, mask_num, ip_top, nombre, color, fnt_size) {
     const pBottom = document.createElement("p");
     pBottom.className = "bottom";
     pBottom.textContent = ip_top;
+    if (fnt_size<12){pBottom.style.opacity = 0}
     div.appendChild(pBottom);
 
     return div.outerHTML;
@@ -315,5 +302,18 @@ function random_color() {
     return color
 }
 
+//Calcula el brillo de los colores
+function calculateBrightness(color) {
+    const rgbValues = color.match(/\d+/g);
+    const red = parseInt(rgbValues[0]);
+    const green = parseInt(rgbValues[1]);
+    const blue = parseInt(rgbValues[2]);
+    const brightness = Math.sqrt(
+        0.299 * (red * red) +
+        0.587 * (green * green) +
+        0.114 * (blue * blue)
+    );
+    return brightness;
+}
 
 //Hecho por Juan Ignacio Bertoldi
