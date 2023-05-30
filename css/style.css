@@ -260,3 +260,103 @@ body {
 #contenedor {
   background-color: black;
 }
+
+/*Color selection ui*/
+
+#contenedor_c_ui {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  background-color: #41a3b3;
+  transform: translate(-50%, -50%);
+  border-radius: 5px;
+  border: 2px solid #317985;
+  box-shadow: inset 0px 0px 20px 0px #000000c4, 0px 0px 4px 0px #000000c4;
+}
+
+
+
+
+
+/*Input range*/
+
+#contenedor_c_ui input[type="range"] {
+  appearance: none;
+  margin-right: 15px;
+  width: 200px;
+  height: 7px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 5px;
+  background-image: linear-gradient(#ff4500, #ff4500);
+  background-size: 50% 100%;
+  background-repeat: no-repeat;
+}
+
+/* Input Thumb */
+#contenedor_c_ui input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #ff4500;
+  cursor: ew-resize;
+  box-shadow: 0 0 2px 0 #555;
+  transition: background .3s ease-in-out;
+}
+
+#contenedor_c_ui input[type="range"]::-moz-range-thumb {
+  appearance: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #ff4500;
+  cursor: ew-resize;
+  box-shadow: 0 0 2px 0 #555;
+  transition: background .3s ease-in-out;
+}
+
+#contenedor_c_ui input[type="range"]::-ms-thumb {
+  appearance: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #ff4500;
+  cursor: ew-resize;
+  box-shadow: 0 0 2px 0 #555;
+  transition: background .3s ease-in-out;
+}
+
+#contenedor_c_ui input[type="range"]::-webkit-slider-thumb:hover {
+  background: #ff0200;
+}
+
+#contenedor_c_ui input[type="range"]::-moz-range-thumb:hover {
+  background: #ff0200;
+}
+
+#contenedor_c_ui input[type="range"]::-ms-thumb:hover {
+  background: #ff0200;
+}
+
+/* Input Track */
+#contenedor_c_ui input[type=range]::-webkit-slider-runnable-track {
+  appearance: none;
+  box-shadow: none;
+  border: none;
+  background: transparent;
+}
+
+#contenedor_c_ui input[type=range]::-moz-range-track {
+  appearance: none;
+  box-shadow: none;
+  border: none;
+  background: transparent;
+}
+
+#contenedor_c_ui input[type="range"]::-ms-track {
+  appearance: none;
+  box-shadow: none;
+  border: none;
+  background: transparent;
+}

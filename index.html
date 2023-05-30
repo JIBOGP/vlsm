@@ -113,6 +113,17 @@
     </tfoot>
   </table>
   <div id="contenedor"></div>
+  <div id="contenedor_c_ui">
+    <canvas id="ringCanvas" width="300" height="300"></canvas>
+    <div>
+      <p>Saturación <span id="saturationPercentage">100%</span><br></p>
+      <input type="range" id="saturationInput" min="0" max="100" value="100">
+      
+      <p>Iluminación <span id="lightnessPercentage">50%</span></p>
+      <input type="range" id="lightnessInput" min="0" max="100" value="50">
+      
+    </div>
+  </div>
 </body>
 <script src="node_modules/html2canvas/dist/html2canvas.min.js"></script>
 <script src="js/index.js"></script>
