@@ -1,6 +1,7 @@
 //Eliminar subred
 
 let botonEditColor = document.getElementById("btnEditColor");
+let botonCerrarEditColor =document.getElementById("cerrar_c_ui")
 let editor_color = document.getElementById("contenedor_c_ui");
 let row_to_edit = "";
 
@@ -16,6 +17,7 @@ function cambiarEstadoBotonEditColo() {
 
 // Agregar un controlador de evento de clic al botón Eliminar
 botonEditColor.addEventListener("click", btn_editar);
+botonCerrarEditColor.addEventListener("click", btn_editar);
 
 function btn_editar() {
     let editar = cambiarEstadoBotonEditColo();
@@ -55,6 +57,7 @@ function btn_editar() {
         if (filas.length > 0) {
             for (let i = 0; i < filas.length; i++) {
                 filas[i].classList.remove("aEditar");
+                filas[i].removeAttribute("id");
                 filas[i].removeEventListener("click", editarFila);
                 filas[i].cells[0].contentEditable = true;
                 filas[i].cells[1].contentEditable = true;
@@ -66,6 +69,10 @@ function btn_editar() {
 
 function editarFila() {
     row_to_edit = this;
+    for (let i = 0; i < tabla_body.rows.length; i++) {
+        tabla_body.rows[i].removeAttribute("id");
+    }
+    this.id = "selected";
 }
 
 
@@ -163,7 +170,7 @@ function drawInnerCircle(color, width) {
     context.beginPath();
     context.arc(centerX, centerY, width + 2, 0, 2 * Math.PI);
     context.closePath();
-    context.fillStyle = "black";
+    context.fillStyle = "#317985";
     context.fill();
     // Dibujar el círculo interno
     context.beginPath();

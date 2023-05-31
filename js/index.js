@@ -12,23 +12,50 @@ let tabla_foot = document.getElementById("redes_desc").getElementsByTagName("tfo
 document.getElementById("calcular").addEventListener("click", calcular);
 
 function calcular() {
-    getip();
-    ordenarTabla(tabla_body);
-    generar_datos(tabla_body);
-    contenedor.innerHTML = "";
-    if (Number(tabla_foot[3].innerHTML.replace("/", "")) >= Number(mascara.value) || tabla_foot[1].innerHTML == "0") {
-        generer_grafico_vlsm(tabla_body.rows);
+    if (ip.value != '') {
+        getip();
+        ip.style.backgroundColor = ''
+        error_datos = datosVacios(tabla_body.rows);
+        if (error_datos) {
+            ordenarTabla(tabla_body);
+            generar_datos(tabla_body);
+            contenedor.innerHTML = "";
+            if (Number(tabla_foot[3].innerHTML.replace("/", "")) >= Number(mascara.value) || tabla_foot[1].innerHTML == "0") {
+                generer_grafico_vlsm(tabla_body.rows);
+            }
+        }
+    } else {
+        ip.style.backgroundColor = 'red'
     }
 }
 
-function ordenarTabla(tabla) {
-    var filas = tabla.rows;
+//Verificamos que los campos de ips necesarias no esten vacios
+function datosVacios(filas) {
+    let result = true;
+    if (filas.length > 0) {
+        for (let i = 0; i < filas.length; i++) {
+            if (filas[i].cells[1].innerHTML == '') {
+                result = false;
+                filas[i].cells[1].style.backgroundColor = 'red';
+                console.log(filas[i])
+                break
+            } else {
+                filas[i].cells[1].style.backgroundColor = 'white'
+            }
+        }
+    }
 
-    var arregloFilas = Array.from(filas); // Convertir las filas a un array y eliminar la primera fila de encabezado
+    return result
+}
+
+function ordenarTabla(tabla) {
+    let filas = tabla.rows;
+
+    let arregloFilas = Array.from(filas); // Convertir las filas a un array y eliminar la primera fila de encabezado
 
     arregloFilas.sort(function (a, b) {
-        var cola = parseInt(a.cells[1].textContent);
-        var colb = parseInt(b.cells[1].textContent);
+        let cola = parseInt(a.cells[1].textContent);
+        let colb = parseInt(b.cells[1].textContent);
         return colb - cola; // Ordenar de mayor a menor
     });
 
@@ -43,25 +70,35 @@ function ordenarTabla(tabla) {
     });
 }
 
+//Generar tabla de datos
 function generar_datos(tabla) {
     let arr_filas = tabla.rows;
-    tabla_foot[1].innerHTML = Number(0);
+    tabla_foot[1].innerHTML = 0;
     for (let i = 0; i < arr_filas.length; i++) {
         let columnas = arr_filas[i].cells;
-        let val = Number(columnas[1].innerHTML);
-        let tdba = 0
-        while (Math.pow(2, tdba) < val) {
-            tdba += 1;
-        }
+        let tdba = Math.ceil(Math.log2(columnas[1].innerHTML))
+
+        //TAMAÑO DEL BLOQUE ASIGNADO
         columnas[2].innerHTML = "2^" + tdba + " = " + Math.pow(2, tdba);
+
+        //MÁSCARA RESULTANTE
         columnas[3].innerHTML = (32 - tdba);
+
+        //DIRECCIÓN BASE
         if (i == 0) { columnas[4].innerHTML = ip_base }
         else {
             let cols_aux = arr_filas[i - 1].cells;
             columnas[4].innerHTML = sum_ip(octet_to_ipv4(ip_to_octet(cols_aux[7].innerHTML)), 1);
         }
+
+        //MÁSCARA
         columnas[5].innerHTML = octet_to_ipv4(mask_to_b_octet(columnas[3].innerHTML));
-        columnas[7].innerHTML = octet_to_ipv4(ip_to_octet(columnas[4].innerHTML).slice(0, columnas[3].innerHTML) + mask_to_b_octet(columnas[3].innerHTML).replaceAll("1", "").replaceAll("0", "1"));
+
+        //BROADCAST
+        columnas[7].innerHTML = octet_to_ipv4(ip_to_octet(columnas[4].innerHTML).slice(0, columnas[3].innerHTML) +
+            mask_to_b_octet(columnas[3].innerHTML).replaceAll("1", "").replaceAll("0", "1"));
+
+        //RANGO ASIGNABLE
         columnas[6].innerHTML = sum_ip(columnas[4].innerHTML, 1) + "-" + sum_ip(columnas[7].innerHTML, -1);
 
         tabla_foot[1].innerHTML = Number(tabla_foot[1].innerHTML) + Math.pow(2, 32 - Number(columnas[3].innerHTML));
@@ -71,8 +108,10 @@ function generar_datos(tabla) {
         columnas[4].innerHTML += columnas[3].innerHTML;
     }
     let f_mask = 32 - Math.ceil(Math.log2(Number(tabla_foot[1].innerHTML)));
-    tabla_foot[2].innerHTML = "2^" + (32 - f_mask) + " = " + Math.pow(2, 32 - f_mask);
-    tabla_foot[3].innerHTML = "/" + f_mask;
+    if (tabla_foot[1].innerHTML != 0) {
+        tabla_foot[2].innerHTML = "2^" + (32 - f_mask) + " = " + Math.pow(2, 32 - f_mask);
+        tabla_foot[3].innerHTML = "/" + f_mask;
+    } else { tabla_foot[1].innerHTML = ''; }
 }
 
 function getip() {
@@ -142,10 +181,10 @@ function calculate_base(ip_c, mask_c) {
 
 
 function sum_ip(ipv4, val) {
-    var octetos = ipv4.split('.');
+    let octetos = ipv4.split('.');
 
     // Convertir los octetos a números enteros
-    for (var i = 0; i < octetos.length; i++) {
+    for (let i = 0; i < octetos.length; i++) {
         octetos[i] = parseInt(octetos[i]);
     }
 
@@ -183,12 +222,12 @@ function sum_ip(ipv4, val) {
     }
 
     // Volver a convertir los octetos en cadenas de texto
-    for (var j = 0; j < octetos.length; j++) {
+    for (let j = 0; j < octetos.length; j++) {
         octetos[j] = octetos[j].toString();
     }
 
     // Volver a concatenar los octetos en una cadena
-    var direccionIP = octetos.join('.');
+    let direccionIP = octetos.join('.');
 
     return direccionIP;
 }
@@ -264,11 +303,11 @@ function generate_box(ip_base, mask_num, ip_top, nombre, color, fnt_size) {
     const pTop = document.createElement("p");
     pTop.className = "top";
     pTop.textContent = ip_base;
-    if (fnt_size<12){pTop.style.opacity = 0}
+    if (fnt_size < 12) { pTop.style.opacity = 0 }
     div.appendChild(pTop);
 
     const centerDiv = document.createElement("div");
-    if (fnt_size<12){centerDiv.style.opacity = 0}
+    if (fnt_size < 12) { centerDiv.style.opacity = 0 }
     centerDiv.className = "center";
 
     const pNombre = document.createElement("p");
@@ -290,7 +329,7 @@ function generate_box(ip_base, mask_num, ip_top, nombre, color, fnt_size) {
     const pBottom = document.createElement("p");
     pBottom.className = "bottom";
     pBottom.textContent = ip_top;
-    if (fnt_size<12){pBottom.style.opacity = 0}
+    if (fnt_size < 12) { pBottom.style.opacity = 0 }
     div.appendChild(pBottom);
 
     return div.outerHTML;

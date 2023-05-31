@@ -162,6 +162,8 @@ body {
 .aEliminar th {
   user-select: none !important;
   cursor: pointer !important;
+  height: 28px !important;
+  overflow: auto;
 }
 
 #redes_desc tbody th {
@@ -173,19 +175,22 @@ body {
   background-color: white;
 }
 
-.aEditar:hover th {
+.aEditar:hover th,
+.aEditar#selected th {
   border-top-width: 3px !important;
   border-top-color: green !important;
   border-bottom-width: 3px !important;
   border-bottom-color: green !important;
 }
 
-.aEditar:hover th:first-child {
+.aEditar:hover th:first-child,
+.aEditar#selected th:first-child {
   border-left-width: 3px !important;
   border-left-color: green !important;
 }
 
-.aEditar:hover th:last-child {
+.aEditar:hover th:last-child,
+.aEditar#selected th:last-child {
   border-right-width: 3px !important;
   border-right-color: green !important;
 }
@@ -199,7 +204,7 @@ body {
 #contenedor {
   margin: 20px 10px;
   border: 2px solid black;
-  height: 85vh;
+  height: 730px;
   display: flex;
 }
 
@@ -265,19 +270,41 @@ body {
 
 #contenedor_c_ui {
   display: none;
+  align-items: center;
   position: fixed;
   top: 50%;
   left: 50%;
   background-color: #41a3b3;
   transform: translate(-50%, -50%);
-  border-radius: 5px;
+  border-radius: 20px;
   border: 2px solid #317985;
   box-shadow: inset 0px 0px 20px 0px #000000c4, 0px 0px 4px 0px #000000c4;
 }
 
+#cerrar_c_ui {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgb(255, 74, 74);
+  color: white;
+  font-weight: bold;
+  border: 4px solid #820000;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  box-shadow: 0px 0px 3px 1px #be0000c4;
+}
 
+#contenedor_c_ui p {
+  margin: 0px;
+  margin-top: 5px;
+  color: white;
+}
 
-
+#contenedor_c_ui p span {
+  color: #820000;
+}
 
 /*Input range*/
 
@@ -291,6 +318,7 @@ body {
   background-image: linear-gradient(#ff4500, #ff4500);
   background-size: 50% 100%;
   background-repeat: no-repeat;
+  box-shadow: 0px 0px 3px 1px #be0000c4;
 }
 
 /* Input Thumb */
@@ -303,6 +331,7 @@ body {
   cursor: ew-resize;
   box-shadow: 0 0 2px 0 #555;
   transition: background .3s ease-in-out;
+  box-shadow: 0px 0px 3px 1px #be0000c4;
 }
 
 #contenedor_c_ui input[type="range"]::-moz-range-thumb {
