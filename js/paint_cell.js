@@ -232,7 +232,7 @@ function recolorred() {
     let elements = document.querySelectorAll(".elements");
     trs.forEach((tr, i) => {
         tr.querySelectorAll("th")[0].style.backgroundColor = colors[i];
-        if (elements > 0 && elements.length <= colors.length) {elements[i].style.backgroundColor = colors[i];}
+        elements[i].style.backgroundColor = colors[i];
         if (calculateBrightness(tr.querySelectorAll("th")[0].style.backgroundColor) < 128) {
             tr.querySelectorAll("input")[0].style.color = "white";
         } else { tr.querySelectorAll("input")[0].style.color = "black"; }
