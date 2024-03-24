@@ -173,8 +173,7 @@ changeBar();
 //Obtener los colores de la barra
 
 function getColorFromGradient(cant) {
-    let bolFlex = (editor_color.style.display == "none");
-    if (bolFlex) { editor_color.style.display = "flex" }
+    if (!estadoBotonEditColor) { editor_color.style.display = "flex"; }
     let cslist = document.querySelectorAll(".color_selector_c_ui");
 
     let canvas = document.createElement('canvas');
@@ -187,6 +186,7 @@ function getColorFromGradient(cant) {
     // Definir el degradado
     let degradado = context.createLinearGradient(0, 0, canvas.width, canvas.height);
     cslist.forEach(cl => {
+        if (cl.style.left == "100%") { cl.style.left = `${canvas.width}px`; console.log(canvas.width); }
         degradado.addColorStop((parseInt(cl.style.left) / canvas.width).toFixed(2), cl.querySelector("input").value);
     });
 
@@ -221,7 +221,7 @@ function getColorFromGradient(cant) {
         colors_list.push(color);
     }
     canvas.remove();
-    if (bolFlex) { editor_color.style.display = "none" }
+    if (!estadoBotonEditColor) { editor_color.style.display = "none" }
 
     return colors_list;
 }
@@ -232,7 +232,7 @@ function recolorred() {
     let elements = document.querySelectorAll(".elements");
     trs.forEach((tr, i) => {
         tr.querySelectorAll("th")[0].style.backgroundColor = colors[i];
-        elements[i].style.backgroundColor = colors[i];
+        if (elements.length > 0) elements[i].style.backgroundColor = colors[i];
         if (calculateBrightness(tr.querySelectorAll("th")[0].style.backgroundColor) < 128) {
             tr.querySelectorAll("input")[0].style.color = "white";
         } else { tr.querySelectorAll("input")[0].style.color = "black"; }
