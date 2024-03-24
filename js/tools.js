@@ -4,13 +4,12 @@ const botonCaptura = document.querySelector("#btnCapturar"),
     objetivo = document.querySelector("#contenedor");
 
 botonCaptura.addEventListener("click", () => {
-    html2canvas(objetivo)
-        .then(canvas => {
-            let enlace = document.createElement('a');
-            enlace.download = "captura.png";
-            enlace.href = canvas.toDataURL();
-            enlace.click();
-        });
+    html2canvas(objetivo).then(canvas => {
+        let enlace = document.createElement('a');
+        enlace.download = "captura.png";
+        enlace.href = canvas.toDataURL();
+        enlace.click();
+    });
 });
 
 //Guardar tabla de datos
@@ -96,10 +95,10 @@ archivoInput.addEventListener('change', function () {
             tabla_body.appendChild(fila);
         }
         //Cargado de ip
-        let ip_saved_values=((filas[filas.length - 1]).split(';'))[0].split('.');
+        let ip_saved_values = ((filas[filas.length - 1]).split(';'))[0].split('.');
         ipinput.forEach((input, index) => {
             input.value = ip_saved_values[index];
-        });        
+        });
         mascara.value = ((filas[filas.length - 1]).split(';'))[1];
         calcular();
     };

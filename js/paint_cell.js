@@ -149,16 +149,12 @@ function changeBar() {
     l_colors.sort(compararPorLeft);
 
     let gradiente = "linear-gradient(90deg";
-    /* console.clear(); */
     l_colors.forEach(l_color => {
         let l_color_input = l_color.querySelector("input")
-        /* console.log(l_color.style.left);
-        console.log(l_color_input); */
         gradiente += ", " + l_color_input.value + " " + parseInt(l_color.style.left) / barra.clientWidth * 100 + "%"
     });
     gradiente += ")";
     barra.style.background = gradiente;
-    /* console.log(gradiente); */
 }
 
 function doubleClick() {
@@ -186,7 +182,7 @@ function getColorFromGradient(cant) {
     // Definir el degradado
     let degradado = context.createLinearGradient(0, 0, canvas.width, canvas.height);
     cslist.forEach(cl => {
-        if (cl.style.left == "100%") { cl.style.left = `${canvas.width}px`; console.log(canvas.width); }
+        if (cl.style.left == "100%") { cl.style.left = `${canvas.width}px`;}
         degradado.addColorStop((parseInt(cl.style.left) / canvas.width).toFixed(2), cl.querySelector("input").value);
     });
 
