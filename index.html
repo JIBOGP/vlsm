@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VLSM</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <header>
+    <nav id="herramientas">
+      <h1><img src="images/vlsm.ico" alt="" />VLSM</h1>
+      <div id="tools">
+        <input type="file" id="archivoInput" accept=".csv" style="display: none;">
+        <button id="btnUpload_table">
+          <img src="images/buttons/upload.png" alt="save.png" title="Subir informacion">
+        </button>
+        <button id="btnSave_table">
+          <img src="images/buttons/save.png" alt="save.png" title="Guardar informacion">
+        </button>
+        <button id="btnCapturar">
+          <img src="images/buttons/save_as_image.png" alt="save_as_image.png" title="Guardar vlsm como imagen">
+        </button>
+        <button id="cant_red_add">
+          <img src="images/buttons/add_red.png" alt="add_red.png" title="Agregar subred">
+        </button>
+        <button id="btnEliminar">
+          <img src="images/buttons/delete_row.png" alt="delete_row.png" title="Eliminar subredes">
+        </button>
+        <button id="btnEditColor">
+          <img src="images/buttons/paint_cell.png" alt="paint_cell.png" title="Asignar color de las subredes">
+        </button>
+      </div>
+      <div id="caja_calcular">
+        <div id="inputs_ip">
+          <div id="ip_div">
+            IP:
+            <input type="tel" class="ip" value="0" maxlength="3" />·
+            <input type="tel" class="ip" value="0" maxlength="3" />·
+            <input type="tel" class="ip" value="0" maxlength="3" />·
+            <input type="tel" class="ip" value="0" maxlength="3" />
+          </div>
+          <div id="mask_div">
+            MASK:
+            <select id="mask" name="mask">
+              <option value="0">/0 </option>
+              <option value="1">/1 </option>
+              <option value="2">/2 </option>
+              <option value="3">/3 </option>
+              <option value="4">/4 </option>
+              <option value="5">/5 </option>
+              <option value="6">/6 </option>
+              <option value="7">/7 </option>
+              <option value="8">/8 </option>
+              <option value="9">/9 </option>
+              <option value="10">/10 </option>
+              <option value="11">/11 </option>
+              <option value="12">/12 </option>
+              <option value="13">/13 </option>
+              <option value="14">/14 </option>
+              <option value="15">/15 </option>
+              <option value="16">/16 </option>
+              <option value="17">/17 </option>
+              <option value="18">/18 </option>
+              <option value="19">/19 </option>
+              <option value="20">/20 </option>
+              <option value="21">/21 </option>
+              <option value="22">/22 </option>
+              <option value="23">/23 </option>
+              <option value="24">/24 </option>
+              <option value="25">/25 </option>
+              <option value="26">/26 </option>
+              <option value="27">/27 </option>
+              <option value="28">/28 </option>
+              <option value="29">/29 </option>
+              <option value="30">/30 </option>
+              <option value="31">/31 </option>
+              <option value="32">/32 </option>
+            </select>
+          </div>
+        </div>
+        <button id="calcular">
+          <img src="images/buttons/calcular.png" alt="calcular.png" title="Calcular">
+        </button>
+      </div>
+    </nav>
+  </header>
+  <br>
+  <table id="redes_desc">
+    <thead>
+      <tr>
+        <th>NOMBRE DE SUBRED</th>
+        <th>IPS NECESARIAS</th>
+        <th>TAMAÑO DEL BLOQUE ASIGNADO</th>
+        <th>MÁSCARA RESULTANTE</th>
+        <th>DIRECCIÓN BASE</th>
+        <th>MÁSCARA</th>
+        <th>RANGO ASIGNABLE</th>
+        <th>BROADCAST</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+    <tfoot>
+      <tr>
+        <th>Total</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </tfoot>
+  </table>
+  <div id="contenedor"></div>
+  <div id="contenedor_c_ui">
+    <button id="cerrar_c_ui">X</button>
+    <div id="color_bar_c_ui">
+      <div class="color_selector_c_ui" style="left: 620px;">
+        <div><input type="color" value="#ffffff"></div>
+        <div></div>
+      </div>
+      <div class="color_selector_c_ui" style="left: 0px;">
+        <div><input type="color" value="#ffffff"></div>
+        <div></div>
+      </div>
+    </div>
+    <select name="" id="" style="width: 200px;height: 20px;">
+      <option value="0" style="background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);">Degradado arcoiris</option>
+      <option value="1" style="background: linear-gradient(to right, red, blue);">Degradado Lineal</option>
+      <option value="2" style="background: radial-gradient(circle, red, blue);">Degradado Radial</option>
+      <option value="3" style="background: green;">Degradado Diagonal</option>
+      <option value="4" style="background: linear-gradient(to top left, red, blue);">Degradado desde una Esquina</option>
+    </select>
+  </div>
+</body>
+<script src="../node_modules\html2canvas\dist\html2canvas.min.js"></script>
+<script src="js/index.js"></script>
+<script src="js/paint_cell.js"></script>
+<script src="js/insert_red.js"></script>
+<script src="js/delete_row.js"></script>
+<script src="js/tools.js"></script>
+<!-- made by Juan Ignacio Bertoldi -->
+
+</html>
