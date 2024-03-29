@@ -79,12 +79,12 @@ function errors(filas) {
             } else if (poscol.querySelector(".table_inputs").value > Math.pow(2, 32)) { //input mayor a la maxima cantidad de ips
                 msg = `El valor supera el limite de 2^32 (${Math.pow(2, 32)})`;
                 result = false;
-                i = filas.length;
             } else if (poscol.querySelector(".table_inputs").value <= 2) { //Input menor a la cantidad minima de redes necesarias
                 msg = "La red no es utilizable (necesita una base , un broadcast y una ip asignable)";
                 result = false;
             } else if (Math.ceil(Math.log2(sumval)) > parseInt(mascara.value)) { //Input supera el limite dado por la mascara
                 msg = `Se a superado el limite de redes disponibles para una mascara de ${mascara.value}/`;
+                result = false;
             }
 
             if (msg != "") {
