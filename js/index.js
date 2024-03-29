@@ -42,14 +42,9 @@ document.getElementById("calcular").addEventListener("click", calcular);
 
 function calcular() {
     get_ip_values();
-    /* console.clear();
-    console.log("IP:" + ip_value);
-    console.log("IP BASE:" + ip_base);
-    console.log("IP TOP:" + ip_top); */
-    error_datos = datosVacios(tabla_body.rows);
+    ordenarTabla(tabla_body);
+    error_datos = errors(tabla_body.rows);
     if (error_datos) {
-
-        ordenarTabla(tabla_body);
         generar_datos(tabla_body);
         contenedor.innerHTML = "";
         if (Number(tabla_foot[3].innerHTML.replace("/", "")) >= Number(mascara.value) || tabla_body.children.length === 0) {
@@ -67,21 +62,51 @@ function get_ip_values() {
 }
 
 //Verificamos que los campos de ips necesarias no esten vacios
-function datosVacios(filas) {
+function errors(filas) {
     let result = true;
     if (filas.length > 0) {
+        let sumval = 0
         for (let i = 0; i < filas.length; i++) {
-            if (filas[i].cells[1].querySelectorAll(".table_inputs")[0].value == '') {
+            let poscol = filas[i].cells[1];
+            let msg = "";
+
+            if (poscol.querySelector(".error-cell")) { poscol.querySelector(".error-cell").remove(); }
+            sumval += Math.pow(2, Math.ceil(Math.log2(parseInt(filas[i].cells[1].querySelector(".table_inputs").value))))
+            //Capturas de error
+            if (poscol.querySelector(".table_inputs").value == '') { //input vacio
+                msg = "Este dato esta vacio";
                 result = false;
-                filas[i].cells[1].style.backgroundColor = 'red';
-                console.log(filas[i])
-                break
-            } else {
-                filas[i].cells[1].style.backgroundColor = 'white'
+            } else if (poscol.querySelector(".table_inputs").value > Math.pow(2, 32)) { //input mayor a la maxima cantidad de ips
+                msg = `El valor supera el limite de 2^32 (${Math.pow(2, 32)})`;
+                result = false;
+                i = filas.length;
+            } else if (poscol.querySelector(".table_inputs").value <= 2) { //Input menor a la cantidad minima de redes necesarias
+                msg = "La red no es utilizable (necesita una base , un broadcast y una ip asignable)";
+                result = false;
+            } else if (Math.ceil(Math.log2(sumval)) > parseInt(mascara.value)) { //Input supera el limite dado por la mascara
+                msg = `Se a superado el limite de redes disponibles para una mascara de ${mascara.value}/`;
+            }
+
+            if (msg != "") {
+                var errorCell = document.createElement("div");
+                errorCell.className = "error-cell";
+
+                // Crear el elemento div con la 'X' dentro
+                var xElement = document.createElement("div");
+                xElement.textContent = "[!]";
+
+                var xElementMsg = document.createElement("div");
+                xElementMsg.className = "error-cell-msg"
+                xElementMsg.textContent = msg;
+
+                // Añadir el elemento de la 'X' al contenedor
+                errorCell.appendChild(xElement);
+                errorCell.appendChild(xElementMsg);
+
+                poscol.appendChild(errorCell);
             }
         }
     }
-
     return result
 }
 

@@ -158,6 +158,7 @@ body::-webkit-scrollbar {
   border: 2px solid black;
   width: 12.5%;
   user-select: text;
+  position: relative;
 }
 
 .aEliminar:hover th {
@@ -306,6 +307,8 @@ body::-webkit-scrollbar {
   box-shadow: inset 0px 0px 20px 0px #000000c4, 0px 0px 4px 0px #000000c4;
   width: min(50%, 700px);
   height: min(40%, 380px);
+
+  z-index: 100;
 }
 
 #cerrar_c_ui {
@@ -369,4 +372,46 @@ body::-webkit-scrollbar {
   height: 10px;
   background-color: white;
   z-index: -1;
+}
+
+/*ERRORS*/
+.error-cell {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 100%;
+  background-color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &>div {
+    color: white;
+    font-weight: bold;
+  }
+
+  & .error-cell-msg:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: -16px;
+    border: 8px solid transparent;
+    border-right: 8px solid red;
+  }
+
+  & .error-cell-msg {
+    position: absolute;
+    display: none;
+    left: calc(100% + 10px);
+    text-wrap: nowrap;
+    width: auto;
+    background-color: red;
+    z-index: 1;
+    padding: 0px 4px;
+  }
+  &:hover .error-cell-msg{
+    display: block;
+  }
 }

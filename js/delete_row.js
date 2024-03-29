@@ -60,6 +60,5 @@ function btn_eliminar() {
 // Eliminar la fila
 function eliminarFila() {
     this.parentNode.removeChild(this);
-    calcular();
     recolorred();
 }

@@ -225,10 +225,9 @@ function getColorFromGradient(cant) {
 function recolorred() {
     let trs = tabla_body.querySelectorAll("tr");
     let colors = getColorFromGradient(trs.length);
-    let elements = document.querySelectorAll(".elements");
+    let elements = document.querySelectorAll('[mask="/full/"]');
     trs.forEach((tr, i) => {
         tr.querySelectorAll("th")[0].style.backgroundColor = colors[i];
-        if (elements.length > 0) elements[i].style.backgroundColor = colors[i];
         if (calculateBrightness(tr.querySelectorAll("th")[0].style.backgroundColor) < 128) {
             tr.querySelectorAll("input")[0].style.color = "white";
         } else { tr.querySelectorAll("input")[0].style.color = "black"; }
