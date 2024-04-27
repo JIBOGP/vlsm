@@ -73,29 +73,34 @@ let initialY;
 barra.addEventListener("mousedown", function (e) {
     cscant = document.querySelectorAll(".color_selector_c_ui").length
     if (currentDraggable == null && cscant < 16) {
-        let colorSelectorDiv = document.createElement('div');
-        colorSelectorDiv.classList.add('color_selector_c_ui');
-
-        let firstInnerDiv = document.createElement('div');
-        let colorInput = document.createElement('input');
-        colorInput.setAttribute('type', 'color');
-        colorInput.setAttribute('value', '#ffffff');
-        colorInput.addEventListener('input', handleChange);
-        firstInnerDiv.appendChild(colorInput);
-
-        let secondInnerDiv = document.createElement('div');
-
-        colorSelectorDiv.appendChild(firstInnerDiv);
-        colorSelectorDiv.appendChild(secondInnerDiv);
-
-        colorSelectorDiv.addEventListener('mousedown', startDragging);
-        colorSelectorDiv.addEventListener('dblclick', doubleClick);
+        let colorSelectorDiv = createSelectorColor()
         colorSelectorDiv.style.left = Math.round(e.clientX - barra.getBoundingClientRect().x) + "px";
 
         barra.appendChild(colorSelectorDiv);
     }
 })
 
+function createSelectorColor(color = '#ffffff', pos = 0) {
+    let colorSelectorDiv = document.createElement('div');
+    colorSelectorDiv.classList.add('color_selector_c_ui');
+
+    let firstInnerDiv = document.createElement('div');
+    let colorInput = document.createElement('input');
+    colorInput.setAttribute('type', 'color');
+    colorInput.setAttribute('value', color);
+    colorInput.addEventListener('input', handleChange);
+    firstInnerDiv.appendChild(colorInput);
+
+    let secondInnerDiv = document.createElement('div');
+
+    colorSelectorDiv.appendChild(firstInnerDiv);
+    colorSelectorDiv.appendChild(secondInnerDiv);
+
+    colorSelectorDiv.addEventListener('mousedown', startDragging);
+    colorSelectorDiv.addEventListener('dblclick', doubleClick);
+    colorSelectorDiv.style.left = `${pos}px`;
+    return colorSelectorDiv
+}
 
 function startDragging(event) {
     currentDraggable = this;
@@ -182,7 +187,7 @@ function getColorFromGradient(cant) {
     // Definir el degradado
     let degradado = context.createLinearGradient(0, 0, canvas.width, canvas.height);
     cslist.forEach(cl => {
-        if (cl.style.left == "100%") { cl.style.left = `${canvas.width}px`;}
+        if (cl.style.left == "100%") { cl.style.left = `${canvas.width}px`; }
         degradado.addColorStop((parseInt(cl.style.left) / canvas.width).toFixed(2), cl.querySelector("input").value);
     });
 
@@ -232,4 +237,69 @@ function recolorred() {
             tr.querySelectorAll("input")[0].style.color = "white";
         } else { tr.querySelectorAll("input")[0].style.color = "black"; }
     });
+}
+
+let barradeColores = document.querySelector("#color_selector_c_gradients>div:first-child")
+barradeColores.addEventListener("click", () => {
+    let button = barradeColores.querySelector("div")
+    if (button.innerHTML == "▼") {
+        button.innerHTML = " ▼ "
+        barradeColores.parentNode.classList.add("show");
+    } else {
+        button.innerHTML = "▼"
+        barradeColores.parentNode.classList.remove("show");
+    }
+})
+
+function setbarcolor(val, balanced) {
+    val = val.split(",")
+    console.log(val);
+    Array.from(document.querySelectorAll(".color_selector_c_ui")).forEach(el => el.remove());
+
+    val.forEach((element, i) => {
+        if (balanced) {
+            barra.appendChild(createSelectorColor(element, i / (val.length - 1) * 620));
+        } else {
+            color = element.split('|');
+            if (color[1].includes('%')) {
+                barra.appendChild(createSelectorColor(color[0], parseInt(color[1]) / 100 * 620));
+            }
+        }
+    });
+    changeBar();
+    recolorred()
+}
+
+function newbarcolor() {
+    let background = barra.style.background
+
+    let divContenedor = document.createElement("div");
+    divContenedor.addEventListener("click", function () {
+        setbarcolor(transformtobarcode(background), 0);
+    });
+    divContenedor.addEventListener("dblclick", function () {
+        divContenedor.remove();
+    });
+    divContenedor.style.background = background;
+
+    document.querySelector("#color_selector_c_gradients>div:last-child").insertBefore(divContenedor, document.querySelector("#color_selector_c_gradients>div:last-child>div:last-child"));
+}
+
+function transformtobarcode(gradientCadena) {
+    // Extraer las ocurrencias de rgb(x, x, x) x%
+    const matches = gradientCadena.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)\s*([\d.]+)%/g);
+
+    if (!matches) {
+        return "Formato de entrada incorrecto";
+    }
+
+    // Procesar cada ocurrencia para convertirla al formato deseado
+    const coloresHex = matches.map(match => {
+        const [r, g, b, position] = match.match(/\d+/g);
+        const hexColor = "#" + [r, g, b].map(c => parseInt(c).toString(16).padStart(2, '0')).join('');
+        return `${hexColor}|${position}%`;
+    });
+
+    // Unir los resultados
+    return coloresHex.join(',');
 }

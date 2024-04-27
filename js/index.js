@@ -69,17 +69,18 @@ function errors(filas) {
         for (let i = 0; i < filas.length; i++) {
             let poscol = filas[i].cells[1];
             let msg = "";
+            let val =poscol.querySelector(".table_inputs").value;
 
             if (poscol.querySelector(".error-cell")) { poscol.querySelector(".error-cell").remove(); }
             sumval += Math.pow(2, Math.ceil(Math.log2(parseInt(filas[i].cells[1].querySelector(".table_inputs").value))))
             //Capturas de error
-            if (poscol.querySelector(".table_inputs").value == '') { //input vacio
+            if (val == '') { //input vacio
                 msg = "Este dato esta vacio";
                 result = false;
-            } else if (poscol.querySelector(".table_inputs").value > Math.pow(2, 32)) { //input mayor a la maxima cantidad de ips
+            } else if (val > Math.pow(2, 32)) { //input mayor a la maxima cantidad de ips
                 msg = `El valor supera el limite de 2^32 (${Math.pow(2, 32)})`;
                 result = false;
-            } else if (poscol.querySelector(".table_inputs").value <= 2) { //Input menor a la cantidad minima de redes necesarias
+            } else if (val <= 2) { //Input menor a la cantidad minima de redes necesarias
                 msg = "La red no es utilizable (necesita una base , un broadcast y una ip asignable)";
                 result = false;
             } else if (Math.ceil(Math.log2(sumval)) > parseInt(mascara.value)) { //Input supera el limite dado por la mascara
