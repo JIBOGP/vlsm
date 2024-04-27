@@ -270,20 +270,54 @@ function setbarcolor(val, balanced) {
     recolorred()
 }
 
-function newbarcolor() {
-    let background = barra.style.background
+//Creacion de gradientes
 
+let load = true;
+let cantGrad=0
+
+function newbarcolor(background = barra.style.background) {
     let divContenedor = document.createElement("div");
     divContenedor.addEventListener("click", function () {
         setbarcolor(transformtobarcode(background), 0);
     });
     divContenedor.addEventListener("dblclick", function () {
         divContenedor.remove();
+        removeElementFromStorage(divContenedor);
     });
     divContenedor.style.background = background;
 
     document.querySelector("#color_selector_c_gradients>div:last-child").insertBefore(divContenedor, document.querySelector("#color_selector_c_gradients>div:last-child>div:last-child"));
+    if (!load) { saveElementToStorage(background); }
 }
+
+function saveElementToStorage(background) {
+    let savedElements = JSON.parse(localStorage.getItem('savedElements')) || [];
+    savedElements.push(background);
+    localStorage.setItem('savedElements', JSON.stringify(savedElements));
+}
+
+function removeElementFromStorage(element) {
+    let savedElements = JSON.parse(localStorage.getItem('savedElements')) || [];
+    let indexToRemove = -1;
+    savedElements.forEach(function (item, index) {
+        if (item === element.style.background) {
+            indexToRemove = index;
+        }
+    });
+    if (indexToRemove !== -1) {
+        savedElements.splice(indexToRemove, 1);
+        localStorage.setItem('savedElements', JSON.stringify(savedElements));
+    }
+}
+
+window.addEventListener('load', function () {
+    let savedElements = JSON.parse(localStorage.getItem('savedElements')) || [];
+    savedElements.forEach(function (background) {
+        newbarcolor(background);
+    });
+    load = false;
+});
+
 
 function transformtobarcode(gradientCadena) {
     // Extraer las ocurrencias de rgb(x, x, x) x%
