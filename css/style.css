@@ -1,3 +1,8 @@
+/*-------------------------CONS-------------------------*/
+:root {
+	--bar-degree-pos: 30%;
+  }
+/*-------------------------MISC-------------------------*/
 * {
 	user-select: none;
 	-webkit-user-drag: none;
@@ -331,7 +336,7 @@ body::-webkit-scrollbar {
 #color_bar_c_ui {
 
 	position: relative;
-	top: calc(60% - 40px);
+	top: var(--bar-degree-pos);
 	width: calc(100% - 80px);
 	border: 2px solid #317985;
 	height: 40px;
@@ -379,7 +384,7 @@ body::-webkit-scrollbar {
 
 #color_selector_c_gradients {
 	position: relative;
-	top: calc(60% - 40px);
+	top: var(--bar-degree-pos);
 	width: calc(100% - 80px);
 	height: 22px;
 	overflow: hidden;

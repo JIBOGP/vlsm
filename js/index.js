@@ -43,8 +43,9 @@ document.getElementById("calcular").addEventListener("click", calcular);
 function calcular() {
     get_ip_values();
     ordenarTabla(tabla_body);
+    recolorred();
     error_datos = errors(tabla_body.rows);
-    if (error_datos) {
+    if (!error_datos) {
         generar_datos(tabla_body);
         contenedor.innerHTML = "";
         if (Number(tabla_foot[3].innerHTML.replace("/", "")) >= Number(mascara.value) || tabla_body.children.length === 0) {
@@ -63,7 +64,7 @@ function get_ip_values() {
 
 //Verificamos que los campos de ips necesarias no esten vacios
 function errors(filas) {
-    let result = true;
+    let result = false;
     if (filas.length > 0) {
         let sumval = 0
         for (let i = 0; i < filas.length; i++) {
@@ -76,17 +77,17 @@ function errors(filas) {
             //Capturas de error
             if (val == '') { //input vacio
                 msg = "Este dato esta vacio";
-                result = false;
+                result = true;
             } else if (val > Math.pow(2, 32)) { //input mayor a la maxima cantidad de ips
                 msg = `El valor supera el limite de 2^32 (${Math.pow(2, 32)})`;
-                result = false;
+                result = true;
             } else if (val <= 2) { //Input menor a la cantidad minima de redes necesarias
                 msg = "La red no es utilizable (necesita una base , un broadcast y una ip asignable)";
-                result = false;
-            } else if (Math.ceil(Math.log2(sumval)) > parseInt(mascara.value)) { //Input supera el limite dado por la mascara
+                result = true;
+            } /*else if (Math.ceil(Math.log2(sumval)) > parseInt(mascara.value)) { //Input supera el limite dado por la mascara
                 msg = `Se a superado el limite de redes disponibles para una mascara de ${mascara.value}/`;
-                result = false;
-            }
+                result = true;
+            }*/
 
             if (msg != "") {
                 var errorCell = document.createElement("div");
