@@ -84,10 +84,10 @@ function errors(filas) {
             } else if (val <= 2) { //Input menor a la cantidad minima de redes necesarias
                 msg = "La red no es utilizable (necesita una base , un broadcast y una ip asignable)";
                 result = true;
-            } /*else if (Math.ceil(Math.log2(sumval)) > parseInt(mascara.value)) { //Input supera el limite dado por la mascara
+            } else if (Math.ceil(Math.log2(sumval)) > parseInt(mascara.value)) { //Input supera el limite dado por la mascara
                 msg = `Se a superado el limite de redes disponibles para una mascara de ${mascara.value}/`;
                 result = true;
-            }*/
+            }
 
             if (msg != "") {
                 var errorCell = document.createElement("div");
