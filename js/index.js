@@ -24,7 +24,7 @@ function cargarImagenes(urls) {
 cargarImagenes(urlsImagenes);
 
 //Tabla
-let tabla= document.getElementById("redes_desc"); //Tabla
+let tabla = document.getElementById("redes_desc"); //Tabla
 let tabla_body = document.getElementById("redes_desc").getElementsByTagName("tbody")[0]; //Tabla Body
 let tabla_foot = document.getElementById("redes_desc").getElementsByTagName("tfoot")[0].rows[0].cells; //Tabla foot
 
@@ -60,6 +60,9 @@ function mask_corrector(mask_c) {
 document.getElementById("calcular").addEventListener("click", calcular);
 
 function calcular() {
+    if (botonEliminar.querySelectorAll("img")[0].style.display == 'none') {
+        btn_eliminar();
+    }
     get_ip_values();
     ordenarTabla(tabla_body);
     recolorred();
