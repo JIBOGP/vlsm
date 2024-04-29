@@ -1,7 +1,8 @@
 /*-------------------------CONS-------------------------*/
 :root {
 	--bar-degree-pos: 30%;
-  }
+}
+
 /*-------------------------MISC-------------------------*/
 * {
 	user-select: none;
@@ -408,8 +409,10 @@ body::-webkit-scrollbar {
 		display: flex;
 		flex-wrap: wrap;
 		overflow: scroll;
-		height: 114px;
-		padding: 2px 0;
+		overflow-x: hidden;
+		height: 176px;
+		flex-direction: row;
+		align-content: flex-start;
 
 		&>div {
 			margin: 1px;
@@ -428,7 +431,7 @@ body::-webkit-scrollbar {
 }
 
 #color_selector_c_gradients.show {
-	height: 124px;
+	height: 186px;
 
 	&>div:first-child>div {
 		transform: rotate(180deg);
@@ -463,14 +466,14 @@ body::-webkit-scrollbar {
 	}
 
 	& .error-cell-msg {
+		color: rgb(230, 230, 230);
 		position: absolute;
 		display: none;
 		left: calc(100% + 10px);
-		text-wrap: nowrap;
-		width: auto;
+		width: 200px;
 		background-color: red;
 		z-index: 1;
-		padding: 0px 4px;
+		padding: 4px;
 	}
 
 	&:hover .error-cell-msg {

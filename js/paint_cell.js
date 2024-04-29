@@ -253,7 +253,6 @@ barradeColores.addEventListener("click", () => {
 
 function setbarcolor(val, balanced) {
     val = val.split(",")
-    console.log(val);
     Array.from(document.querySelectorAll(".color_selector_c_ui")).forEach(el => el.remove());
 
     val.forEach((element, i) => {
@@ -281,8 +280,8 @@ function newbarcolor(background = barra.style.background) {
         setbarcolor(transformtobarcode(background), 0);
     });
     divContenedor.addEventListener("dblclick", function () {
-        divContenedor.remove();
         removeElementFromStorage(divContenedor);
+        divContenedor.remove();
     });
     divContenedor.style.background = background;
 

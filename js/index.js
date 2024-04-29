@@ -5,6 +5,24 @@ let ip_value = "0.0.0.0"
 let ip_base = "0.0.0.0";
 let ip_top = "0.0.0.0";
 
+
+//Cargar imagenes
+var urlsImagenes = [
+    'images/buttons/paint_cell_on.png',
+    'images/buttons/delete_row_on.png'
+];
+
+// Función para cargar todas las imágenes
+function cargarImagenes(urls) {
+    urls.forEach(function (url) {
+        var img = new Image();
+        img.src = url;
+    });
+}
+
+// Llamada para cargar las imágenes
+cargarImagenes(urlsImagenes);
+
 //Tabla
 let tabla_body = document.getElementById("redes_desc").getElementsByTagName("tbody")[0]; //Tabla Body
 let tabla_foot = document.getElementById("redes_desc").getElementsByTagName("tfoot")[0].rows[0].cells; //Tabla foot
@@ -70,7 +88,7 @@ function errors(filas) {
         for (let i = 0; i < filas.length; i++) {
             let poscol = filas[i].cells[1];
             let msg = "";
-            let val =poscol.querySelector(".table_inputs").value;
+            let val = poscol.querySelector(".table_inputs").value;
 
             if (poscol.querySelector(".error-cell")) { poscol.querySelector(".error-cell").remove(); }
             sumval += Math.pow(2, Math.ceil(Math.log2(parseInt(filas[i].cells[1].querySelector(".table_inputs").value))))
@@ -84,8 +102,8 @@ function errors(filas) {
             } else if (val <= 2) { //Input menor a la cantidad minima de redes necesarias
                 msg = "La red no es utilizable (necesita una base , un broadcast y una ip asignable)";
                 result = true;
-            } else if (Math.ceil(Math.log2(sumval)) > parseInt(mascara.value)) { //Input supera el limite dado por la mascara
-                msg = `Se a superado el limite de redes disponibles para una mascara de ${mascara.value}/`;
+            } else if (Math.ceil(Math.log2(sumval)) > (32 - parseInt(mascara.value))) { //Input supera el limite dado por la mascara
+                msg = `Se a superado el limite de redes disponibles para una mascara de /${mascara.value} (${Math.pow(2, 32 - parseInt(mascara.value))} ips)`;
                 result = true;
             }
 
