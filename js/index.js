@@ -24,6 +24,7 @@ function cargarImagenes(urls) {
 cargarImagenes(urlsImagenes);
 
 //Tabla
+let tabla= document.getElementById("redes_desc"); //Tabla
 let tabla_body = document.getElementById("redes_desc").getElementsByTagName("tbody")[0]; //Tabla Body
 let tabla_foot = document.getElementById("redes_desc").getElementsByTagName("tfoot")[0].rows[0].cells; //Tabla foot
 

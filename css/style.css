@@ -167,41 +167,15 @@ body::-webkit-scrollbar {
 	position: relative;
 }
 
-.aEliminar:hover th {
-	border-top-width: 3px !important;
-	border-top-color: red !important;
-	border-bottom-width: 3px !important;
-	border-bottom-color: red !important;
-}
-
-.aEliminar:hover th input {
-	cursor: pointer;
-}
-
-.aEliminar:hover th:first-child {
-	border-left-width: 3px !important;
-	border-left-color: red !important;
-}
-
-.aEliminar:hover th:last-child {
-	border-right-width: 3px !important;
-	border-right-color: red !important;
-}
-
-.aEliminar th {
-	user-select: none !important;
-	cursor: pointer !important;
-	height: 28px !important;
-	overflow: auto;
+/*Eliminar fila*/
+.eliminarBtn {
+	width: 19px;
+	height: 19px;
+	background-color: red;
 }
 
 #redes_desc tbody th {
 	background-color: lightgray;
-}
-
-#redes_desc tbody th:nth-child(1),
-#redes_desc tbody th:nth-child(2) {
-	background-color: white;
 }
 
 .aEditar:hover th,

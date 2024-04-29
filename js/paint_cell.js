@@ -10,8 +10,9 @@ let estadoBotonEditColor = false;
 
 // Función para cambiar el estado del botón
 function cambiarEstadoBotonEditColo() {
+    let img = botonEditColor.querySelectorAll("img");
     estadoBotonEditColor = !estadoBotonEditColor;
-    botonEditColor.innerHTML = estadoBotonEditColor ? "<img src='images/buttons/paint_cell_on.png' alt='delete_row.png' title='Eliminar subredes'>" : "<img src='images/buttons/paint_cell.png' alt='delete_row.png' title='Eliminar subredes'>";
+    if (estadoBotonEditColor) { img[0].style.display = "none"; img[1].style.display = "" } else { img[0].style.display = ""; img[1].style.display = "none" }
     return estadoBotonEditColor
 }
 
@@ -21,45 +22,11 @@ botonCerrarEditColor.addEventListener("click", btn_editar);
 
 function btn_editar() {
     let editar = cambiarEstadoBotonEditColo();
-    let filas = tabla_body.rows;
     if (editar) {
         editor_color.style.display = "flex";
-        botonCaptura.disabled = true;
-        descargarButton.disabled = true;
-        cargarButton.disabled = true;
-        btn_add_row.disabled = true;
-        botonEliminar.disabled = true;
         changeBar();
-        if (filas.length == 0) {
-            editor_color.style.display = "none";
-            row_to_edit = "";
-            botonCaptura.disabled = false;
-            descargarButton.disabled = false;
-            cargarButton.disabled = false;
-            btn_add_row.disabled = false;
-            botonEliminar.disabled = false;
-            cambiarEstadoBotonEditColo();
-        } else {
-            for (let i = 0; i < filas.length; i++) {
-                filas[i].cells[0].querySelectorAll(".table_inputs")[0].disabled = true;
-                filas[i].cells[1].querySelectorAll(".table_inputs")[0].disabled = true;
-            }
-        }
     } else {
         editor_color.style.display = "none";
-        row_to_edit = "";
-        botonCaptura.disabled = false;
-        descargarButton.disabled = false;
-        cargarButton.disabled = false;
-        btn_add_row.disabled = false;
-        botonEliminar.disabled = false;
-        if (filas.length > 0) {
-            for (let i = 0; i < filas.length; i++) {
-                filas[i].cells[0].querySelectorAll(".table_inputs")[0].disabled = false;
-                filas[i].cells[1].querySelectorAll(".table_inputs")[0].disabled = false;
-            }
-        }
-
     }
 }
 
@@ -126,8 +93,8 @@ function stopDragging() {
 }
 
 function compararPorLeft(a, b) {
-    var leftA = a.style.left ? parseInt(a.style.left) : 0; // Si el atributo left no está definido, se asigna 0
-    var leftB = b.style.left ? parseInt(b.style.left) : 0; // Si el atributo left no está definido, se asigna 0
+    var leftA = a.style.left ? parseFloat(a.style.left) : 0; // Si el atributo left no está definido, se asigna 0
+    var leftB = b.style.left ? parseFloat(b.style.left) : 0; // Si el atributo left no está definido, se asigna 0
 
     return leftA - leftB;
 }
@@ -153,13 +120,12 @@ function changeBar() {
 
     l_colors.sort(compararPorLeft);
 
-    let gradiente = "linear-gradient(90deg";
+    let gradiente = "";
     l_colors.forEach(l_color => {
         let l_color_input = l_color.querySelector("input")
-        gradiente += ", " + l_color_input.value + " " + parseInt(l_color.style.left) / barra.clientWidth * 100 + "%"
+        gradiente += ", " + l_color_input.value + " " + parseFloat(l_color.style.left) / barra.clientWidth * 100 + "%"
     });
-    gradiente += ")";
-    barra.style.background = gradiente;
+    barra.style.background = "linear-gradient(90deg" + gradiente + ")";
 }
 
 function doubleClick() {
@@ -188,7 +154,7 @@ function getColorFromGradient(cant) {
     let degradado = context.createLinearGradient(0, 0, canvas.width, canvas.height);
     cslist.forEach(cl => {
         if (cl.style.left == "100%") { cl.style.left = `${canvas.width}px`; }
-        degradado.addColorStop((parseInt(cl.style.left) / canvas.width).toFixed(2), cl.querySelector("input").value);
+        degradado.addColorStop((parseFloat(cl.style.left) / canvas.width).toFixed(2), cl.querySelector("input").value);
     });
 
     // Aplicar el degradado al fondo del lienzo
@@ -228,14 +194,16 @@ function getColorFromGradient(cant) {
 }
 
 function recolorred() {
+    elim = (botonEliminar.querySelectorAll("img")[0].style.display == 'none') ? 1 : 0;
     let trs = tabla_body.querySelectorAll("tr");
     let colors = getColorFromGradient(trs.length);
-    let elements = document.querySelectorAll('[mask="/full/"]');
     trs.forEach((tr, i) => {
-        tr.querySelectorAll("th")[0].style.backgroundColor = colors[i];
-        if (calculateBrightness(tr.querySelectorAll("th")[0].style.backgroundColor) < 128) {
+        tr.querySelectorAll("th")[elim].style.backgroundColor = colors[i];
+        if (calculateBrightness(tr.querySelectorAll("th")[elim].style.backgroundColor) < 128) {
             tr.querySelectorAll("input")[0].style.color = "white";
-        } else { tr.querySelectorAll("input")[0].style.color = "black"; }
+        } else {
+            tr.querySelectorAll("input")[0].style.color = "black";
+        }
     });
 }
 
@@ -261,7 +229,7 @@ function setbarcolor(val, balanced) {
         } else {
             color = element.split('|');
             if (color[1].includes('%')) {
-                barra.appendChild(createSelectorColor(color[0], parseInt(color[1]) / 100 * 620));
+                barra.appendChild(createSelectorColor(color[0], parseFloat(color[1]) / 100 * 620));
             }
         }
     });
@@ -272,12 +240,13 @@ function setbarcolor(val, balanced) {
 //Creacion de gradientes
 
 let load = true;
-let cantGrad=0
+let cantGrad = 0
 
 function newbarcolor(background = barra.style.background) {
     let divContenedor = document.createElement("div");
     divContenedor.addEventListener("click", function () {
         setbarcolor(transformtobarcode(background), 0);
+        calcular();
     });
     divContenedor.addEventListener("dblclick", function () {
         removeElementFromStorage(divContenedor);
@@ -328,9 +297,9 @@ function transformtobarcode(gradientCadena) {
 
     // Procesar cada ocurrencia para convertirla al formato deseado
     const coloresHex = matches.map(match => {
-        const [r, g, b, position] = match.match(/\d+/g);
+        const [r, g, b, position, dec] = match.match(/\d+/g);
         const hexColor = "#" + [r, g, b].map(c => parseInt(c).toString(16).padStart(2, '0')).join('');
-        return `${hexColor}|${position}%`;
+        return `${hexColor}|${position}.${dec}%`;
     });
 
     // Unir los resultados

@@ -19,6 +19,11 @@ descargarButton.addEventListener('click', function () {
     const filas = tabla_body.rows;
     let csvContent = '';
 
+    //Desactibar eliminar fila en caso de que este activo
+    if (botonEliminar.querySelectorAll("img")[0].style.display == 'none') {
+        btn_eliminar();
+    }
+
     // Recorrer las filas de la tabla
     for (let i = 0; i < filas.length; i++) {
         const celdas = filas[i].cells;
@@ -30,7 +35,7 @@ descargarButton.addEventListener('click', function () {
             else { filaDatos.push(celdas[j].querySelectorAll(".table_inputs")[0].value.replace(";", "")); }
         }
 
-        csvContent += filaDatos.join(';') + ';' + celdas[0].style.backgroundColor + '\n';
+        csvContent += filaDatos.join(';') + '\n';
     }
     csvContent += ip_value + ';' + mascara.value
     // Crear un objeto Blob con el contenido CSV
@@ -69,6 +74,11 @@ archivoInput.addEventListener('change', function () {
         // Limpiar tabla existente
         tabla_body.innerHTML = '';
 
+        //Desactibar eliminar fila en caso de que este activo
+        if (botonEliminar.querySelectorAll("img")[0].style.display == 'none') {
+            btn_eliminar();
+        }
+
         //Cargado de datos de tabla
         for (let i = 0; i < filas.length - 1; i++) {
             const celdas = filas[i].split(';');
@@ -77,13 +87,6 @@ archivoInput.addEventListener('change', function () {
                 let celda = document.createElement('th');
                 if (j < 2) {
                     var nuevoInput = document.createElement("input");
-                    if (j == 0) {
-                        celda.style.backgroundColor = celdas[8];
-                        if (calculateBrightness(celda.style.backgroundColor) < 128) {
-                            nuevoInput.style.color = "white";
-                        }
-                    }
-
                     if (j == 0) { nuevoInput.type = "text"; } else { nuevoInput.type = "number"; }
                     nuevoInput.value = celdas[j];
                     nuevoInput.classList.add("table_inputs");
