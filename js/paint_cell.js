@@ -38,8 +38,7 @@ let initialX;
 let initialY;
 
 barra.addEventListener("mousedown", function (e) {
-    cscant = document.querySelectorAll(".color_selector_c_ui").length
-    if (currentDraggable == null && cscant < 16) {
+    if (currentDraggable == null) {
         let colorSelectorDiv = createSelectorColor()
         colorSelectorDiv.style.left = Math.round(e.clientX - barra.getBoundingClientRect().x) + "px";
 
@@ -304,4 +303,34 @@ function transformtobarcode(gradientCadena) {
 
     // Unir los resultados
     return coloresHex.join(',');
+}
+
+
+/** Botones*/
+const buttons=document.querySelector("#buttons_c_gradients").querySelectorAll("button")
+
+buttons[0].addEventListener("click",function () {   //Random
+    let drags=document.querySelectorAll('.color_selector_c_ui');
+    drags.forEach(d => {
+        d.querySelector("input").value=generarColorHexadecimal();
+    });
+    changeBar();
+    recolorred();
+    calcular();
+})
+
+function generarColorHexadecimal() {
+    // Generar valores aleatorios para los componentes RGB
+    const r = Math.floor(Math.random() * 256); // Valor entre 0 y 255
+    const g = Math.floor(Math.random() * 256); // Valor entre 0 y 255
+    const b = Math.floor(Math.random() * 256); // Valor entre 0 y 255
+
+    // Convertir los componentes RGB a formato hexadecimal y concatenarlos
+    const colorHexadecimal = "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+    
+    return colorHexadecimal;
+}
+function componentToHex(componente) {
+    const hex = componente.toString(16); // Convertir a hexadecimal
+    return hex.length === 1 ? "0" + hex : hex; // Asegurar que haya dos caracteres en el resultado
 }

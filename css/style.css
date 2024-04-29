@@ -369,9 +369,11 @@ body::-webkit-scrollbar {
 	overflow: hidden;
 	text-align: center;
 	border: 2px solid #317985;
+	background-color: #41a3b3;
 	border-top: 0px;
 	border-radius: 0px 0px 5px 5px;
 	transition: height 400ms;
+	z-index: 5;
 
 	&>div:first-child {
 		background-color: rgb(197, 197, 197);
@@ -414,6 +416,25 @@ body::-webkit-scrollbar {
 	&>div:first-child>div {
 		transform: rotate(180deg);
 	}
+}
+
+
+/*Botones para los degrades*/
+#buttons_c_gradients {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+	position: absolute;
+	top: 55%;
+	width: 526px;
+}
+
+#buttons_c_gradients>button {
+	width: 64px;
+	height: 64px;
+	margin-bottom: 2px;
+	border-radius: 5px;
+	border-color: #317985;
 }
 
 /*ERRORS*/
