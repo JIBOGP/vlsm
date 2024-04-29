@@ -178,6 +178,10 @@ body::-webkit-scrollbar {
 	background-color: lightgray;
 }
 
+.ips_ceil {
+	background-color: white !important;
+}
+
 .aEditar:hover th,
 .aEditar#selected th {
 	border-top-width: 3px !important;

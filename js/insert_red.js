@@ -11,7 +11,7 @@ btn_add_row.addEventListener("click", function () {
             botonEliminarFila.addEventListener('click', eliminarFila);
 
             nuevocelda.appendChild(botonEliminarFila);
-            nuevocelda.style.width="auto";
+            nuevocelda.style.width = "auto";
         }
         if (i >= elim && i < 2 + elim) {
             var nuevoInput = document.createElement("input");
@@ -19,6 +19,8 @@ btn_add_row.addEventListener("click", function () {
             nuevoInput.classList.add("table_inputs");
             nuevocelda.appendChild(nuevoInput);
         }
+        if (i == 1 + elim) nuevocelda.classList.add("ips_ceil");
+
         nuevaFila.appendChild(nuevocelda);
     }
     tabla_body.appendChild(nuevaFila);

@@ -87,7 +87,7 @@ archivoInput.addEventListener('change', function () {
                 let celda = document.createElement('th');
                 if (j < 2) {
                     var nuevoInput = document.createElement("input");
-                    if (j == 0) { nuevoInput.type = "text"; } else { nuevoInput.type = "number"; }
+                    if (j == 0) { nuevoInput.type = "text"; } else { nuevoInput.type = "number"; nuevoInput.classList.add("ips_ceil") }
                     nuevoInput.value = celdas[j];
                     nuevoInput.classList.add("table_inputs");
                     celda.appendChild(nuevoInput);
