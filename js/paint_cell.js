@@ -307,12 +307,12 @@ function transformtobarcode(gradientCadena) {
 
 
 /** Botones*/
-const buttons=document.querySelector("#buttons_c_gradients").querySelectorAll("button")
+const buttons = document.querySelector("#buttons_c_gradients").querySelectorAll("button")
 
-buttons[0].addEventListener("click",function () {   //Random
-    let drags=document.querySelectorAll('.color_selector_c_ui');
+buttons[0].addEventListener("click", function () {   //Random
+    let drags = document.querySelectorAll('.color_selector_c_ui');
     drags.forEach(d => {
-        d.querySelector("input").value=generarColorHexadecimal();
+        d.querySelector("input").value = generarColorHexadecimal();
     });
     changeBar();
     recolorred();
@@ -327,10 +327,23 @@ function generarColorHexadecimal() {
 
     // Convertir los componentes RGB a formato hexadecimal y concatenarlos
     const colorHexadecimal = "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-    
+
     return colorHexadecimal;
 }
 function componentToHex(componente) {
     const hex = componente.toString(16); // Convertir a hexadecimal
     return hex.length === 1 ? "0" + hex : hex; // Asegurar que haya dos caracteres en el resultado
 }
+
+buttons[1].addEventListener("click", function () {   //Equilibrar
+    let drags = document.querySelectorAll('.color_selector_c_ui');
+    drags = Array.from(drags);
+    drags.sort(compararPorLeft);
+
+    drags.forEach((d, i) => {
+        d.style.left = 620 / (drags.length - 1) * i + "px"
+    });
+    changeBar();
+    recolorred();
+    calcular();
+})
